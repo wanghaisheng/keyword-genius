@@ -53,53 +53,26 @@ async def bulk_crawl_and_write(file: IO, keywords: set, **kwargs) -> None:
 if __name__ == "__main__":
     import pathlib
     import sys
-
+    if depth is None:
+        depth=1
     assert sys.version_info >= (3, 7), "Script requires Python 3.7+."
     here = pathlib.Path(__file__).parent
+    if keywordsinput is None:
+        print('there is no intial keywords providing')
+        if keywordstxt is None:
+            print('there is no intial keywords txt providing')
+        else:
+            with open(here.joinpath("inputkeywords.txt")) as infile:
+                keywords = set(map(str.strip, infile))    
+    else:
+        keywords=keywordsinput
+    for i in range(0,depth):           
+        if i >1:
+            with open(here.joinpath(str(i-1)+"keywords.txt")) as infile:
+                keywords = set(map(str.strip, infile))    
+        outpath = here.joinpath(str(i+1)+"keywords.txt")
+        with open(outpath, "w") as outfile:
+            outfile.write("keywords\n")
 
-    with open(here.joinpath("keywords.txt")) as infile:
-        keywords = set(map(str.strip, infile))
+        asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
 
-    outpath = here.joinpath("lv1-keywords.txt")
-    with open(outpath, "w") as outfile:
-        outfile.write("keywords\n")
-
-    asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
-
-
-    with open(here.joinpath("lv1-keywords.txt")) as infile:
-        keywords = set(map(str.strip, infile))
-
-    outpath = here.joinpath("lv2-keywords.txt")
-    with open(outpath, "w") as outfile:
-        outfile.write("keywords\n")
-
-    asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
-
-    with open(here.joinpath("lv2-keywords.txt")) as infile:
-        keywords = set(map(str.strip, infile))
-
-    outpath = here.joinpath("lv3-keywords.txt")
-#     with open(outpath, "w") as outfile:
-#         outfile.write("keywords\n")
-
-#     asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
-
-#     with open(here.joinpath("lv3-keywords.txt")) as infile:
-#         keywords = set(map(str.strip, infile))
-
-#     outpath = here.joinpath("lv4-keywords.txt")
-# #     with open(outpath, "w") as outfile:
-# #         outfile.write("keywords\n")
-
-#     asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
-
-
-#     with open(here.joinpath("lv4-keywords.txt")) as infile:
-#         keywords = set(map(str.strip, infile))
-
-#     outpath = here.joinpath("lv5-keywords.txt")
-# #     with open(outpath, "w") as outfile:
-# #         outfile.write("keywords\n")
-
-#     asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
