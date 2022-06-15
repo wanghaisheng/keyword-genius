@@ -1,0 +1,49 @@
+name: keywords-expand-workflow
+on:
+  workflow_dispatch:
+    inputs:
+      keywords:
+        description: 'input keywords with commas like this "baby,book,youtube"'
+        type: enviroment
+        required: False
+      keywordstxt:
+        description: 'input keywords with csv files,check keywords.txt for example'
+        type: enviroment
+        required: False    
+      depth:
+        description: 'expand depth number  you can  choose from 1,2,3,4,5 '
+        type: enviroment
+        required: True          
+      platform:
+        description: 'expand target platform you can choose "youtube","google","instagram","tiktok","etsy","" '
+        type: enviroment
+        required: True            
+  # schedule:
+    # - cron: "00 12 * * *"
+jobs:
+  scrape_and_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install all necessary packages
+        run: pip install  requests pandas wordninja aiohttp urllib3 chardet aiofiles
+      - name: Run the scraping script
+        run: python3    speedy.py 
+        env:
+          platform: ${{ github.event.inputs.platform }}          
+          depth: ${{ github.event.inputs.depth }}          
+          keywords: ${{ github.event.inputs.keywords }}          
+          keywordstxt: ${{ github.event.inputs.keywordstxt }}          
+      - name: Commit and push and email if content changed
+        run: |-
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "add new"
+          git pull
+          git push
