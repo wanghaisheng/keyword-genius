@@ -8,3 +8,102 @@ https://shimo.im/docs/8hgyPRQKrTYvXkVY/read
 
 
 02 第二种搜索蓝海词方法是直接在淘宝搜搜索你想要的一级类目词，设定价格底线之后，直接按照销量排序，直接找到月销500-800的产品，直接进店铺看是什么产品，然后用生意参谋去分析他的流量比例是什么样子。引流关键词和成交关键词是不是这个小众产品的名称，这样会很方便，但是因为淘宝按销量排名的时候会隐藏很多宝贝，所以不一定能够搜的很全，要不断的去改价格区间，不断的分析店铺的流量词是哪一个。
+
+
+
+https://github.com/wanghaisheng/keywords_heat
+
+https://github.com/wanghaisheng/intent-keywords
+
+
+
+
+
+give me a buy intent keyword list 
+
+ChatGPT
+Sure! Here's a list of buy intent keywords that are commonly used in online shopping:
+
+Buy
+Purchase
+Order
+Shop
+Get
+Add to cart
+Buy now
+Shop now
+Get it now
+Order now
+Add to basket
+Check out
+View product
+Compare prices
+Best deals
+Special offers
+Discounted price
+Sale
+Limited time offer
+Clearance
+Free shipping
+Promo code
+Shop online
+Buy online
+Exclusive deal
+These keywords are often used by customers when they have the intention to make a purchase. Including them in your website content, product descriptions, advertisements, or call-to-action buttons can help attract customers who are ready to buy.
+
+S
+extend the list to more 
+ChatGPT
+Certainly! Here's an extended list of buy intent keywords for online shopping:
+
+Buy
+Purchase
+Order
+Shop
+Get
+Add to cart
+Buy now
+Shop now
+Get it now
+Order now
+Add to basket
+Check out
+View product
+Compare prices
+Best deals
+Special offers
+Discounted price
+Sale
+Limited time offer
+Clearance
+Free shipping
+Promo code
+Shop online
+Buy online
+Exclusive deal
+Bargain
+Save
+Deal
+Discount
+Hot deals
+Lowest price
+Lowest cost
+Affordable
+Best value
+Budget-friendly
+Cheap
+Discount code
+Flash sale
+Free delivery
+Half price
+Money-back guarantee
+Online order
+Pay now
+Quick purchase
+Reduced price
+Special price
+Best buy
+Must-have
+Popular choice
+Limited stock
+These additional keywords can help you optimize your online shopping platform and attract customers who are actively looking to make a purchase.
