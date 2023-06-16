@@ -65,7 +65,7 @@ def get(keyword):
                     sleep_time = random.uniform(1,3)
                     print(f"Sleeping for {sleep_time} seconds...")
                     time.sleep(sleep_time)                              
-                    response = requests.post('https://keywordtool.io/search/keywords/youtube/metrics',  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
+                    response = requests.post('https://keywordtool.io/search/keywords/youtube/metrics?signature=1a80014af313aa46b624c441a3f80c28ab2073f2aea0c7b4a0afe5d730220e50',  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
                     
                     
                     response.raise_for_status()
