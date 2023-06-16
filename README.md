@@ -16,94 +16,11 @@ https://github.com/wanghaisheng/keywords_heat
 https://github.com/wanghaisheng/intent-keywords
 
 
+## recommendation keywords
+
+## keywordtools.io
 
 
 
-give me a buy intent keyword list 
 
-ChatGPT
-Sure! Here's a list of buy intent keywords that are commonly used in online shopping:
 
-Buy
-Purchase
-Order
-Shop
-Get
-Add to cart
-Buy now
-Shop now
-Get it now
-Order now
-Add to basket
-Check out
-View product
-Compare prices
-Best deals
-Special offers
-Discounted price
-Sale
-Limited time offer
-Clearance
-Free shipping
-Promo code
-Shop online
-Buy online
-Exclusive deal
-These keywords are often used by customers when they have the intention to make a purchase. Including them in your website content, product descriptions, advertisements, or call-to-action buttons can help attract customers who are ready to buy.
-
-S
-extend the list to more 
-ChatGPT
-Certainly! Here's an extended list of buy intent keywords for online shopping:
-
-Buy
-Purchase
-Order
-Shop
-Get
-Add to cart
-Buy now
-Shop now
-Get it now
-Order now
-Add to basket
-Check out
-View product
-Compare prices
-Best deals
-Special offers
-Discounted price
-Sale
-Limited time offer
-Clearance
-Free shipping
-Promo code
-Shop online
-Buy online
-Exclusive deal
-Bargain
-Save
-Deal
-Discount
-Hot deals
-Lowest price
-Lowest cost
-Affordable
-Best value
-Budget-friendly
-Cheap
-Discount code
-Flash sale
-Free delivery
-Half price
-Money-back guarantee
-Online order
-Pay now
-Quick purchase
-Reduced price
-Special price
-Best buy
-Must-have
-Popular choice
-Limited stock
-These additional keywords can help you optimize your online shopping platform and attract customers who are actively looking to make a purchase.
