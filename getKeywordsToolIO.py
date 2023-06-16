@@ -57,7 +57,7 @@ def get(keywords):
         while retry_count < max_retries:
             try:
                 
-                fname=keyword.strip()
+                fname=keywords.strip()
                 
                 if not os.path.exists('./results/'+fname+'.json'):
                     print('file is not yet :','./results/'+fname+'.json')      
