@@ -15,7 +15,7 @@ import aiofiles
 import aiohttp
 from aiohttp import ClientSession
 from keywordsExpand import get_longtail_keywords_from_one
-
+import os
 logging.basicConfig(
     format="%(asctime)s %(levelname)s:%(name)s: %(message)s",
     level=logging.DEBUG,
@@ -31,7 +31,7 @@ HREF_RE = re.compile(r'href="(.*?)"')
 
 async def fetch_one(file: IO, keyword: str, **kwargs) -> None:
     """Write the found HREFs from `keyword` to `file`."""
-    res = await get_longtail_keywords_from_one(query=keyword)
+    res = await get_longtail_keywords_from_one(query=keyword,platforms=platforms)
 
     if not res:
         return None
@@ -53,11 +53,16 @@ async def bulk_crawl_and_write(file: IO, keywords: set, **kwargs) -> None:
 if __name__ == "__main__":
     import pathlib
     import sys
+    keywords=os.getenv('keywords')
+    depth=os.getenv('depth')
+    keywordstxt=os.getenv('keywordstxt')
+    platforms=os.getenv('platforms')
+
     if depth is None:
         depth=1
     assert sys.version_info >= (3, 7), "Script requires Python 3.7+."
     here = pathlib.Path(__file__).parent
-    if keywordsinput is None:
+    if keywords is None:
         print('there is no intial keywords providing')
         if keywordstxt is None:
             print('there is no intial keywords txt providing')
@@ -65,14 +70,29 @@ if __name__ == "__main__":
             with open(here.joinpath("inputkeywords.txt")) as infile:
                 keywords = set(map(str.strip, infile))    
     else:
-        keywords=keywordsinput
-    for i in range(0,depth):           
-        if i >1:
-            with open(here.joinpath(str(i-1)+"keywords.txt")) as infile:
-                keywords = set(map(str.strip, infile))    
-        outpath = here.joinpath(str(i+1)+"keywords.txt")
+        if ',' in keywords:
+            keywords=keywords.split(',')
+        else:            
+            keywords=[keywords]
+    for keyword in keywords:
+        outpath = here.joinpath(f"{keyword}-depth=0-keywords.txt")
         with open(outpath, "w") as outfile:
             outfile.write("keywords\n")
+            outfile.write(keyword)
+        for i in range(0,depth):     
+            # root keyword depth=0
+            #  no matter how many word counts of input keyword,we take them as
+            # depth=0 at first
+            #       
+            if i >1:
+                with open(here.joinpath(f"{keyword}-depth={str(i-1)}-keywords.txt")) as infile:
+                    keywords = set(map(str.strip, infile))    
+                outpath = here.joinpath(f"{keyword}-depth={str(i+1)}-keywords.txt")
+                with open(outpath, "w") as outfile:
+                    outfile.write("keywords\n")
 
-        asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords))
+                asyncio.run(bulk_crawl_and_write(file=outpath, keywords=keywords,platforms=platforms))
+            else:
+
+                asyncio.run(bulk_crawl_and_write(file=outpath, keywords=[keyword],platforms=platforms))
 

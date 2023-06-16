@@ -7,19 +7,19 @@ on:
         type: enviroment
         required: False
       keywordstxt:
-        description: 'input keywords with csv files,check keywords.txt for example'
+        description: "input keywords with csv files,check keywords.txt for example"
         type: enviroment
-        required: False    
+        required: False
       depth:
-        description: 'expand depth number  you can  choose from 1,2,3,4,5 '
+        description: "expand depth number  you can  choose from 1,2,3,4,5 "
         type: enviroment
-        required: True          
+        required: True
       platform:
-        description: 'expand target platform you can choose "youtube","google","instagram","tiktok","etsy","" '
+        description: 'expand target platform you can choose "youtube","google","instagram","tiktok","etsy",if you need more than one, use "," to concat them'
         type: enviroment
-        required: True            
+        required: True
   # schedule:
-    # - cron: "00 12 * * *"
+  # - cron: "00 12 * * *"
 jobs:
   scrape_and_email:
     runs-on: ubuntu-latest
@@ -29,16 +29,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: "3.9"
       - name: Install all necessary packages
         run: pip install  requests pandas wordninja aiohttp urllib3 chardet aiofiles
       - name: Run the scraping script
-        run: python3    speedy.py 
+        run: python3    speedy.py
         env:
-          platform: ${{ github.event.inputs.platform }}          
-          depth: ${{ github.event.inputs.depth }}          
-          keywords: ${{ github.event.inputs.keywords }}          
-          keywordstxt: ${{ github.event.inputs.keywordstxt }}          
+          platform: ${{ github.event.inputs.platform }}
+          depth: ${{ github.event.inputs.depth }}
+          keywords: ${{ github.event.inputs.keywords }}
+          keywordstxt: ${{ github.event.inputs.keywordstxt }}
       - name: Commit and push and email if content changed
         run: |-
           git config user.name "Automated"

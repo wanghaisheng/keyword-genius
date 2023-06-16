@@ -200,7 +200,7 @@ if __name__ == "__main__":
             if name.endswith('-lv0.csv'):
                 category=name.split('-')[0]
                 print('========',category)
-        # 		category='jewelry'
+        # 		category='jewelry' depth=[0-5] depth not equal to words count
                 category_root_keyword=category+'-lv0.csv'
                 category_level_1_keyword=category+'-lv1.csv'
                 category_level_2_keyword=category+'-lv2.csv'

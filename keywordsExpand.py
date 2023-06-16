@@ -12,10 +12,10 @@ import time
 #instagram tag都有一个volume在 但其他的我暂时没想好怎么获取
 urls = {
     "google": "https://suggestqueries.google.com/complete/search?client=chrome&q=",
-#     "amazon": "https://completion.amazon.com/search/complete?search-alias=aps&client=amazon-search-ui&mkt=1&q=",
+    "amazon": "https://completion.amazon.com/search/complete?search-alias=aps&client=amazon-search-ui&mkt=1&q=",
     "youtube": "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=",
-#     "etsy":"https://www.etsy.com/suggestions_ajax.php?extras={&quot;expt&quot;:&quot;off&quot;,&quot;lang&quot;:&quot;en-GB&quot;,&quot;extras&quot;:[]}&version=10_12672349415_19&search_type=all&search_query=",
-#     "instagram":"https://www.instagram.com/web/search/topsearch/?context=blended&include_reel=true&query=%23",
+    "etsy":"https://www.etsy.com/suggestions_ajax.php?extras={&quot;expt&quot;:&quot;off&quot;,&quot;lang&quot;:&quot;en-GB&quot;,&quot;extras&quot;:[]}&version=10_12672349415_19&search_type=all&search_query=",
+    "instagram":"https://www.instagram.com/web/search/topsearch/?context=blended&include_reel=true&query=%23",
     "tiktok":"https://www.tiktok.com/api/search/general/preview/?aid=1988&app_language=en&app_name=tiktok_web&browser_language=en-US&browser_name=Mozilla&browser_online=true&browser_platform=Win32&browser_version=5.0 (Windows)&channel=tiktok_web&cookie_enabled=true&device_id=7034896245308212741&device_platform=web_pc&focus_state=true&from_page=search&history_len=17&is_fullscreen=false&is_page_visible=true&os=windows&priority_region=&referer=&region=KR&screen_height=840&screen_width=1344&tz_name=Asia/Shanghai&webcast_language=en&keyword="
 }
 
@@ -45,7 +45,8 @@ def url_ok(url):
 def rep(m):
     s=m.group(1)
     return ' '.join(re.split(r'(?=[A-Z])', s))
-def get_longtail_keywords_from_recommend(keyword_inputfilename,keyword_outputfilename):
+
+def get_longtail_keywords_from_recommend(keyword_inputfilename,keyword_outputfilename,depth=0):
     df_queries = pd.read_csv(keyword_inputfilename)
     # root.csv will look like below
     # keywords (header)
@@ -120,18 +121,20 @@ def get_longtail_keywords_from_recommend(keyword_inputfilename,keyword_outputfil
         
         df = pd.DataFrame({"domain": domains, "query": to_be_saved_queries, "keywords": all_autosuggestions})
         df.to_csv(keyword_outputfilename,  mode='a', index=False)
-async def get_longtail_keywords_from_one(query):
+async def get_longtail_keywords_from_one(query,platforms):
     # root.csv will look like below
     # keywords (header)
     # jewelry
     # kids school
     # search engine optimization
-
+    temp_urls=[]
+    for p in platforms:
+        temp_urls.append(urls[p])
 
     to_be_saved_queries = []
     all_autosuggestions = []
     domains = []
-    for (domain, url) in urls.items():
+    for (domain, url) in temp_urls.items():
 
         print('process',domain,'keyword',query)
         # add the query to the url
