@@ -1,17 +1,4 @@
-# POST /search/keywords/google/metrics
-# 	https://keywordtool.io/search/keywords/youtube/metrics?signature=ac32cb4482b8bc71efd92906562e1a3b594ad35b6fc271116331b6e2a0ada0c6
-# Accept
-# 	application/json, text/plain, */*
-# Accept-Encoding
-# 	gzip, deflate, br
-# Accept-Language
-# 	en-US,en;q=0.5
-# Connection
-# 	keep-alive
-# Content-Length
-# 	167
-# Content-Type
-# 	application/json
+
 import requests
 import base64
 import os
@@ -66,7 +53,7 @@ def get(keywords):
                     time.sleep(sleep_time)                              
                     
                     response = requests.get(f'https://keywordtool.io/search/keywords/google/result/67698?category=web&country=GLB&country_language=en&country_location=0&keyword={keywords}&language=en&metrics_country=GLB&metrics_currency=USD&metrics_is_default_location=0&metrics_is_estimated=0&metrics_language=1000&metrics_network=2&search_type=1&time=1686890218&signature=c8e404e1729665a8e89f758625a42a8c1c0637d7c42356327fb65badb5b3095a',  headers=headers, json= {},proxies={'http':None,'https':None}, timeout=timeout)
-                    
+                    print('first get response',response)
                     headers = {
 'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0',
 'Accept':'application/json, text/plain, */*',
@@ -89,6 +76,7 @@ def get(keywords):
         }
                     
                     response = requests.post(f'https://keywordtool.io/search/keywords/google/keywords',  headers=headers, json= {},proxies={'http':None,'https':None}, timeout=timeout)
+                    print('2 get response',response)
 
                     
                     print('====\r',response.json())
@@ -106,6 +94,7 @@ def get(keywords):
                     response.raise_for_status()
                     
                     response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
+                    print('3 post response',response)
 
                     print('Request successful!')
                     # print('Response:', response.text)
