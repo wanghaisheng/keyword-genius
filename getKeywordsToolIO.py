@@ -91,7 +91,7 @@ def get(keywords):
                     response = requests.post(f'https://keywordtool.io/search/keywords/google/keywords',  headers=headers, json= {},proxies={'http':None,'https':None}, timeout=timeout)
 
                     
-                    print('====\r',response.content())
+                    print('====\r',response.json())
                     if 'keywords_payload' in response.json():
                         keywords_payload=response.json()['keywords_payload']
                     metricURL=response.json()['metrics_url']
