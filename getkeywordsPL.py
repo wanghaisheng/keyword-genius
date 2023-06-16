@@ -120,10 +120,10 @@ class AsyncTikTokAPI(TikTokAPI):
 
         for _ in range(self.navigation_retries + 1):
             await self.context.clear_cookies()
-            page: Page = await self._context.new_page()
-            await page.route("**/api/challenge/item_list/**", capture_api_extras)
-            await page.route("**/api/comment/list/**", capture_api_extras)
-            await page.route("**/api/post/item_list/**", capture_api_extras)
+#             page: Page = await self._context.new_page()
+#             await page.route("**/api/challenge/item_list/**", capture_api_extras)
+#             await page.route("**/api/comment/list/**", capture_api_extras)
+#             await page.route("**/api/post/item_list/**", capture_api_extras)
             await page.add_init_script(
                 """
 if (navigator.webdriver === false) {
@@ -139,7 +139,7 @@ if (navigator.webdriver === false) {
             try:
                 await page.goto(link, wait_until=None)
                 await page.wait_for_selector("#SIGI_STATE", state="attached")
-
+                await page.locator("#search-form-google-keyword-md")
                 if self.default_scroll_down_time > 0:
                     await self._scroll_page_down(
                         page,
@@ -172,3 +172,6 @@ if (navigator.webdriver === false) {
             )
 
         return data, api_extras
+t= AsyncTikTokAPI()
+t._scrape_data('https://keywordtool.io/')
+
