@@ -1,0 +1,68 @@
+name: grab keywords
+on:
+  workflow_dispatch:
+    inputs:
+      Keywords:
+        description: Keywords list like"capcut"
+        type: enviroment
+        required: true
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update      
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: run demo
+        run: |
+          python getKeywordsToolIO.py
+        env:
+          Keywords: '${{ github.event.inputs.Keywords }}'
+      - name: Config git
+        run: >
+          git config --local user.email "ations@github.com"
+
+          git config --local user.name "github"
+
+          git config --global http.postBuffer 157286400
+
+          git remote set-url origin "https://${{ github.actor }}:${{
+          github.token }}@github.com/${{ github.repository }}"
+#       - name: Release
+#         uses: marvinpinto/action-automatic-releases@latest
+#         with:
+#           repo_token: '${{ secrets.GITHUB_TOKEN }}'
+#           automatic_release_tag: '${{ github.run_id }}'
+#           prerelease: false
+#           title: '${{ github.run_id }}'
+#           files: |
+#             output/*
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/*
+          asset_name: result.zip
+          asset_content_type: application/zip
