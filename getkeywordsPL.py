@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 import playwright.async_api
 from playwright.async_api import Page, Route, TimeoutError, async_playwright
-from pydantic import ValidationError
+# from pydantic import ValidationError
 
 class TikTokAPIError(Exception):
     """Raised when the API encounters an error"""
@@ -27,7 +27,7 @@ class TikTokAPIWarning(RuntimeWarning):
     pass
 
 
-class AsyncTikTokAPI(TikTokAPI):
+class AsyncTikTokAPI():
     """Asynchronous API used to scrape data from TikTok"""
 
     def __enter__(self):
@@ -56,71 +56,27 @@ class AsyncTikTokAPI(TikTokAPI):
         await self.browser.close()
         await self.playwright.stop()
 
-    async def _extract_and_dump_data(
-        self, page_content: str, extras_json: List[dict], data_model: Type[]
-    ):
-        data = page_content.split('<script id="SIGI_STATE" type="application/json">')[
-            1
-        ].split("</script>")[0]
-
-        if self.data_dump_file:
-            with open(
-                f"{self.data_dump_file}.{data_model.__name__}.json",
-                "w+",
-                encoding="utf-8",
-            ) as f:
-                j = json.loads(data)
-                j["extras"] = extras_json
-                json.dump(j, f, indent=2)
-
-        parsed = data_model.parse_raw(data)
-        if isinstance(parsed, MobileResponseMixin):
-            parsed = parsed.to_desktop()
-        return parsed
 
     async def _scrape_data(
         self,
         link: str,
-        data_model: Type[],
         scroll_down_time: float = None,
         scroll_down_delay: float = None,
         scroll_down_iter_delay: float = None,
-    ) -> Tuple[_DataModelT, List[APIResponse]]:
+    ):
 
         if scroll_down_time is None:
-            scroll_down_time = self.default_scroll_down_time
+            scroll_down_time = 30
 
         if scroll_down_delay is None:
-            scroll_down_delay = self.default_scroll_down_delay
+            scroll_down_delay = 10
 
         if scroll_down_iter_delay is None:
-            scroll_down_iter_delay = self.default_scroll_down_iter_delay
-
-        api_extras: List[APIResponse] = []
-        extras_json: List[dict] = []
-
-        async def capture_api_extras(route: Route):
-            try:
-                await route.continue_()
-                response = await route.request.response()
-            except playwright.async_api.Error:
-                return
-
-            if not response:
-                return
-
-            try:
-                _data = await response.json()
-            except json.JSONDecodeError:
-                return
-
-            extras_json.append(_data)
-            api_response = APIResponse.parse_obj(_data)
-            api_extras.append(api_response)
-
+            scroll_down_iter_delay = 10
+        self.navigation_retries=3
         for _ in range(self.navigation_retries + 1):
-            await self.context.clear_cookies()
-#             page: Page = await self._context.new_page()
+            # await self.context.clear_cookies()
+            page: Page = await self._context.new_page()
 #             await page.route("**/api/challenge/item_list/**", capture_api_extras)
 #             await page.route("**/api/comment/list/**", capture_api_extras)
 #             await page.route("**/api/post/item_list/**", capture_api_extras)
@@ -139,7 +95,6 @@ if (navigator.webdriver === false) {
             try:
                 await page.goto(link, wait_until=None)
                 await page.wait_for_selector("#SIGI_STATE", state="attached")
-                await page.locator("#search-form-google-keyword-md")
                 if self.default_scroll_down_time > 0:
                     await self._scroll_page_down(
                         page,
@@ -147,12 +102,22 @@ if (navigator.webdriver === false) {
                         scroll_down_delay,
                         scroll_down_iter_delay,
                     )
+                # await page.locator("div.sc-hQikvm.vPjhq")
+                data=[]
 
-                content = await page.content()
+                for li in await page.get_by_role('sc-hQikvm.vPjhq').all():
+                    commercial=await li.get_by_role('sc-kxCoLp.gfrvgX').text_content()
+                    kd=await li.get_by_role('sc-futMm gGEFEd').text_content()
+                    keywords=li.locator('div.sc-eZgkGA.cxUAlk div').text_content()
+                    d ={
+                        'type':commercial,
+                        "kd":kd,
+                        "keywords":keywords
+                    }
+                    data.append(d)
                 await page.close()
-
-                data = self._extract_and_dump_data(content, extras_json, data_model)
-            except (ValidationError, IndexError) as e:
+                # data = self._extract_and_dump_data(content, extras_json, data_model)
+            except ( IndexError) as e:
                 traceback.print_exception(type(e), e, e.__traceback__)
                 await page.close()
                 continue
@@ -171,7 +136,6 @@ if (navigator.webdriver === false) {
                 f"(retries: {self.navigation_retries})"
             )
 
-        return data, api_extras
-t= AsyncTikTokAPI()
-t._scrape_data('https://keywordtool.io/')
+        return data
+
 
