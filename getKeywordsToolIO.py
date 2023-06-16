@@ -98,8 +98,8 @@ def get(keywords):
                     if '?signature=' in metricURL:
                         signature=metricURL.split('?signature=')[-1]
                     scrape_urls=response.json()['scrape_urls']
-                    if keywords_payload
-                    response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
+                    if keywords_payload:
+                        response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
                     
                     json_data = {"filter_keywords":"","filter_keywords_partial_match":"","negative_keywords":"","keywords_payload":keywords_payload,"sort":"keywordsAsc","total":100}
                     data=json.dumps(json_data)
