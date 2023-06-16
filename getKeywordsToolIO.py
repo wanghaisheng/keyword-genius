@@ -75,37 +75,40 @@ def get(keywords):
                     print('2 get response',response)
 
                     
-                    print('====\r',response.json())
+                    # print('====\r',response.json())
                     if 'keywords_payload' in response.json():
                         keywords_payload=response.json()['keywords_payload']
+                        print('====keywords_payload\r',keywords_payload)
+
                     metricURL=response.json()['metrics_url']
+                    print('====metricURL\r',metricURL)
+
                     if '?signature=' in metricURL:
                         signature=metricURL.split('?signature=')[-1]
+                        print('====signature\r',signature)
+
                     scrape_urls=response.json()['scrape_urls']
-                    if keywords_payload:
-                        response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
                     
                     json_data = {"filter_keywords":"","filter_keywords_partial_match":"","negative_keywords":"","keywords_payload":keywords_payload,"sort":"keywordsAsc","total":100}
                     data=json.dumps(json_data)
                     response.raise_for_status()
-                    
-                    response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
-                    print('3 post response',response)
+                    if keywords_payload:
+
+                        response = requests.post(metricURL,  headers=headers, json= json_data,proxies={'http':None,'https':None}, timeout=timeout)
+                        print('3 post response',response.status_code)
 
                     print('Request successful!')
                     # print('Response:', response.text)
                     try:
                         result=response.json()['all_keywords']          
 
-                        
+                        if not os.path.exists('./results'):
+                            os.path.mkdirs('./results')
                         with open('./results/'+fname+'.json','wb') as ff:
                             ff.write(result)
                     except:
                         print('response content has no audio data filed',response.text)
                         retry_count += 1
-                        with open('./combines/failed.txt','a+') as ff:
-                            ff.write(voice+"\n")
-                        break
                                 
                 return ('./results/'+fname+'.json')                
                 break
