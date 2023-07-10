@@ -23,6 +23,10 @@ https://github.com/wanghaisheng/intent-keywords
 ## keywordtools.io
 
 
+# traditional SEO 
+
+# new SEO
+
 
 
 
