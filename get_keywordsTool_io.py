@@ -231,14 +231,14 @@ def get(keywords):
                                 scrape_urls = response.json()["scrape_urls"]
                             else:
                                 print("====scrape_urls not found")
-                            json_data = {
-                                "filter_keywords": "",
-                                "filter_keywords_partial_match": "",
-                                "negative_keywords": "",
-                                "keywords_payload": keywords_payload,
-                                "sort": "keywordsAsc",
-                                "total": 100,
-                            }
+                            # json_data = {
+                            #     "filter_keywords": "",
+                            #     "filter_keywords_partial_match": "",
+                            #     "negative_keywords": "",
+                            #     "keywords_payload": keywords_payload,
+                            #     "sort": "keywordsAsc",
+                            #     "total": 100,
+                            # }
 
                         except Timeout:
                             print("Request timed out. Retrying...")
