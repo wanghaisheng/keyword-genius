@@ -112,8 +112,8 @@ def get(keywords):
 
                 fname = keywords.strip()
                 fname = fname + "-" + platform + "-" + str(search_type)
-                if not os.path.exists("./results/" + fname + ".json"):
-                    print("file is not yet :", "./results/" + fname + ".json")
+                if not os.path.exists("./output/" + fname + ".json"):
+                    print("file is not yet :", "./output/" + fname + ".json")
 
                     retry_count = 0
                     while retry_count < max_retries:
