@@ -252,6 +252,8 @@ def get(keywords):
         return None
 
 output_folder = "./output"
+folder_path =  "./output"
+
 if not os.path.exists("output"):
     os.mkdir("output")
     
@@ -262,8 +264,8 @@ if keywords:
     if "," in keywords:
         keywords = list(keywords)
     else:
-        keywords = list(keywords)
-    print(keywords)
+        keywords = [keywords]
+    print('inputs:\r',keywords)
     for k in keywords:
         get(k)
 
