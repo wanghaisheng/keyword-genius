@@ -7,6 +7,56 @@ import random
 import json
 from time import sleep
 from requests.exceptions import Timeout
+import shutil
+import zipfile
+
+def zip_folder(folder_path, output_folder, max_size_mb, zip_file,zip_temp_file,zip_count):
+    # Create the output folder if it doesn't exist
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Convert the maximum size from MB to bytes
+    max_size_bytes = max_size_mb * 1024 * 1024
+
+    # Iterate over the directory tree
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+
+            # Add each file to the current ZIP archive
+            zip_file.write(file_path)
+
+            # Check if the current ZIP file exceeds the maximum size
+            if os.stat(file_path).st_size > max_size_bytes:
+                # Close the current ZIP archive
+                zip_file.close()
+
+                # Move the current ZIP file to the output folder
+                shutil.move(
+                    zip_temp_file,
+                    os.path.join(output_folder, f"archive{zip_count}.zip"),
+                )
+
+                print(
+                    f"Created 'archive{zip_count}.zip' (size: {os.path.getsize(os.path.join(output_folder, f'archive{zip_count}.zip'))} bytes)"
+                )
+
+                # Create a new ZIP archive for the remaining files
+                zip_count += 1
+                zip_temp_file = os.path.join(output_folder, f"temp{zip_count}.zip")
+                zip_file = zipfile.ZipFile(zip_temp_file, "w", zipfile.ZIP_DEFLATED)
+
+                # Delete the original file after adding it to the ZIP archive
+                os.remove(file_path)
+
+    # Close the last ZIP archive
+    zip_file.close()
+
+    # Move the last ZIP file to the output folder
+    shutil.move(zip_temp_file, os.path.join(output_folder, f"archive{zip_count}.zip"))
+
+    print(
+        f"Created 'archive{zip_count}.zip' (size: {os.path.getsize(os.path.join(output_folder, f'archive{zip_count}.zip'))} bytes)"
+    )
 
 
 def get(keywords):
@@ -149,12 +199,12 @@ def get(keywords):
                                     result = response.json()["all_keywords"]
                                     # print('====all_keywords\r',result)
 
-                                    if not os.path.exists("./results"):
-                                        os.mkdir("./results")
+                                    if not os.path.exists("./output"):
+                                        os.mkdir("./output")
                                         print("create result folder")
 
                                     with open(
-                                        "./results/" + fname + ".json",
+                                        "./output/" + fname + ".json",
                                         "w",
                                         encoding="utf-8",
                                     ) as f:
@@ -165,7 +215,7 @@ def get(keywords):
                                         )
 
                                     with open(
-                                        "./results/" + fname + "-scrape_urls.json",
+                                        "./output/" + fname + "-scrape_urls.json",
                                         "w",
                                         encoding="utf-8",
                                     ) as f:
@@ -195,7 +245,10 @@ def get(keywords):
         print_exc()
         return None
 
-
+output_folder = "./output"
+if not os.path.exists("output"):
+    os.mkdir("output")
+    
 keywords = os.getenv("Keywords")
 keywords = "capcut", "temu"
 
@@ -207,3 +260,13 @@ if keywords:
     print(keywords)
     for k in keywords:
         get(k)
+
+max_size_mb = 1500
+
+# Create a temporary ZIP file for the first archive
+zip_count = 1
+zip_temp_file = os.path.join(output_folder, f"temp{zip_count}.zip")
+zip_file = zipfile.ZipFile(zip_temp_file, "w", zipfile.ZIP_DEFLATED)
+
+    # Compress the folder into multiple ZIP archives
+zip_folder(folder_path, output_folder, max_size_mb, zip_file,zip_temp_file,zip_count)
