@@ -114,18 +114,18 @@ def get(keywords):
                 fname = fname + "-" + platform + "-" + str(search_type)
                 if not os.path.exists("./output/" + fname + ".json"):
                     print("file is not yet :", "./output/" + fname + ".json")
-
+                    url= f"https://keywordtool.io/search/keywords/{platform}/result/67698?category=web&country=GLB&country_language=en&country_location=0&keyword={keywords}&language=en&metrics_country=GLB&metrics_currency=USD&metrics_is_default_location=0&metrics_is_estimated=0&metrics_language=1000&metrics_network=2&search_type=1&time=1686890218&signature=c8e404e1729665a8e89f758625a42a8c1c0637d7c42356327fb65badb5b3095a"
                     retry_count = 0
                     while retry_count < max_retries:
                         try:
                             response = requests.get(
-                                f"https://keywordtool.io/search/keywords/{platform}/result/67698?category=web&country=GLB&country_language=en&country_location=0&keyword={keywords}&language=en&metrics_country=GLB&metrics_currency=USD&metrics_is_default_location=0&metrics_is_estimated=0&metrics_language=1000&metrics_network=2&search_type=1&time=1686890218&signature=c8e404e1729665a8e89f758625a42a8c1c0637d7c42356327fb65badb5b3095a",
+                               url,
                                 headers=headers,
                                 json={},
                                 proxies={"http": None, "https": None},
                                 timeout=timeout,
                             )
-                            print("first get response", response.status_code)
+                            print(f"first get response:{url}", response.status_code)
                             headers = {
                                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0",
                                 "Accept": "application/json, text/plain, */*",
