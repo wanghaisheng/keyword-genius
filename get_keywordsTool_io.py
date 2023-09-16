@@ -160,6 +160,61 @@ def get(keywords):
                             if "keywords_payload" in response.json():
                                 keywords_payload = response.json()["keywords_payload"]
                                 print("====keywords_payload\r", keywords_payload)
+                                
+                                data = json.dumps(json_data)
+                                response.raise_for_status()
+                                if keywords_payload:
+                                    sleep_time = random.uniform(1, 3)
+                                    print(f"Sleeping for {sleep_time} seconds...")
+                                    time.sleep(sleep_time)
+
+                                    response = requests.post(
+                                        metricURL,
+                                        headers=headers,
+                                        json=json_data,
+                                        proxies={"http": None, "https": None},
+                                        timeout=timeout,
+                                    )
+                                    print("3 post response", response.status_code)
+
+                                    print(f"{platform}-{search_type}-Request successful!")
+                                    try:
+                                        result = response.json()["all_keywords"]
+                                        # print('====all_keywords\r',result)
+
+                                        if not os.path.exists("./output"):
+                                            os.mkdir("./output")
+                                            print("create result folder")
+
+                                        with open(
+                                            "./output/" + fname + ".json",
+                                            "w",
+                                            encoding="utf-8",
+                                        ) as f:
+                                            print(f"write {search_type}result json ")
+
+                                            json.dump(
+                                                result, f, ensure_ascii=False, indent=4
+                                            )
+
+                                        with open(
+                                            "./output/" + fname + "-scrape_urls.json",
+                                            "w",
+                                            encoding="utf-8",
+                                        ) as f:
+                                            print(f"write {search_type} scrape_urls json ")
+
+                                            json.dump(
+                                                scrape_urls, f, ensure_ascii=False, indent=4
+                                            )
+                                        break
+                                    except:
+                                        print(
+                                            "response content has no audio data filed",
+                                            response.status_code,
+                                        )
+                                        retry_count += 1
+                                
                             else:
                                 print("====keywords_payload not found")
 
@@ -184,59 +239,6 @@ def get(keywords):
                                 "sort": "keywordsAsc",
                                 "total": 100,
                             }
-                            data = json.dumps(json_data)
-                            response.raise_for_status()
-                            if keywords_payload:
-                                sleep_time = random.uniform(1, 3)
-                                print(f"Sleeping for {sleep_time} seconds...")
-                                time.sleep(sleep_time)
-
-                                response = requests.post(
-                                    metricURL,
-                                    headers=headers,
-                                    json=json_data,
-                                    proxies={"http": None, "https": None},
-                                    timeout=timeout,
-                                )
-                                print("3 post response", response.status_code)
-
-                                print(f"{platform}-{search_type}-Request successful!")
-                                try:
-                                    result = response.json()["all_keywords"]
-                                    # print('====all_keywords\r',result)
-
-                                    if not os.path.exists("./output"):
-                                        os.mkdir("./output")
-                                        print("create result folder")
-
-                                    with open(
-                                        "./output/" + fname + ".json",
-                                        "w",
-                                        encoding="utf-8",
-                                    ) as f:
-                                        print(f"write {search_type}result json ")
-
-                                        json.dump(
-                                            result, f, ensure_ascii=False, indent=4
-                                        )
-
-                                    with open(
-                                        "./output/" + fname + "-scrape_urls.json",
-                                        "w",
-                                        encoding="utf-8",
-                                    ) as f:
-                                        print(f"write {search_type} scrape_urls json ")
-
-                                        json.dump(
-                                            scrape_urls, f, ensure_ascii=False, indent=4
-                                        )
-                                    break
-                                except:
-                                    print(
-                                        "response content has no audio data filed",
-                                        response.status_code,
-                                    )
-                                    retry_count += 1
 
                         except Timeout:
                             print("Request timed out. Retrying...")
