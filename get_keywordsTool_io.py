@@ -160,6 +160,9 @@ def get(keywords):
                             if "keywords_payload" in response.json():
                                 keywords_payload = response.json()["keywords_payload"]
                                 print("====keywords_payload\r", keywords_payload)
+                            else:
+                                print("====keywords_payload not found")
+
                             if "metrics_url" in response.json():
                                 metricURL = response.json()["metrics_url"]
                                 print("====metricURL\r", metricURL)
@@ -167,9 +170,12 @@ def get(keywords):
                                 if "?signature=" in metricURL:
                                     signature = metricURL.split("?signature=")[-1]
                                     print("====signature\r", signature)
+                            else:
+                                print("====metrics_url not found")                                    
                             if "scrape_urls" in response.json():
                                 scrape_urls = response.json()["scrape_urls"]
-
+                            else:
+                                print("====scrape_urls not found")
                             json_data = {
                                 "filter_keywords": "",
                                 "filter_keywords_partial_match": "",
@@ -250,7 +256,7 @@ if not os.path.exists("output"):
     os.mkdir("output")
     
 keywords = os.getenv("Keywords")
-keywords = "capcut", "temu"
+# keywords = "capcut", "temu"
 
 if keywords:
     if "," in keywords:
