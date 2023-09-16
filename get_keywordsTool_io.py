@@ -118,14 +118,14 @@ def get(keywords):
                     retry_count = 0
                     while retry_count < max_retries:
                         try:
-                            response = requests.get(
-                               url,
-                                headers=headers,
-                                json={},
-                                proxies={"http": None, "https": None},
-                                timeout=timeout,
-                            )
-                            print(f"first get response:{url}", response.status_code)
+                            # response = requests.get(
+                            #    url,
+                            #     headers=headers,
+                            #     json={},
+                            #     proxies={"http": None, "https": None},
+                            #     timeout=timeout,
+                            # )
+                            # print(f"first get response:{url}", response.status_code)
                             headers = {
                                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0",
                                 "Accept": "application/json, text/plain, */*",
