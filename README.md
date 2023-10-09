@@ -10,6 +10,8 @@ https://github.com/wanghaisheng/taxonomyml
 
 gogle search console wrapper
 
+https://github.com/locomotive-agency/googlewrapper
+
 https://github.com/jroakes/google-searchconsole
 
 
