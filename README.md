@@ -1,6 +1,14 @@
 https://github.com/GeneralMills/pytrends
 
 
+seed keyword to tropical keywords
+
+
+https://github.com/wanghaisheng/taxonomyml
+
+
+
+
 #  关键词扩展小工具
 
 
