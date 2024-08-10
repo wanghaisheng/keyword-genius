@@ -1,6 +1,13 @@
 # 关键词
 
 
+
+Find keywords with search traffic potential
+Make sure you create content that aligns with search intent
+Make sure the keyword has “business potential”
+Make sure you can rank for the keyword
+
+
 ## keyword from hashtag
 
 https://github.com/wanghaisheng/hashtags_and_keywords_social_media_quick_search
