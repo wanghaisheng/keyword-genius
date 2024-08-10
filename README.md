@@ -6,6 +6,14 @@
 https://github.com/wanghaisheng/hashtags_and_keywords_social_media_quick_search
 
 
+
+## two type longtail keyword
+https://ahrefs.com/blog/long-tail-keywords/
+
+Topical long-tail keywords-parent topic one
+
+Supporting long-tail keywords- childeren topic one
+
 ## auto with ai
 
 https://github.com/microsoft/TaskWeaver
