@@ -82,6 +82,19 @@ if __name__ == "__main__":
             keywords=keywords.split(',')
         else:            
             keywords=[keywords]
+
+    if platforms is None:
+        print('there is no intial platforms providing')
+        platforms=['google']
+    else:
+        if ',' in platforms:
+            platforms=platforms.split(',')
+
+        else:            
+            platforms=[platforms]
+
+
+    
     for keyword in keywords:
         outpath = here.joinpath(f"{keyword}-depth=0-keywords.txt")
         with open(outpath, "w") as outfile:
