@@ -14,7 +14,7 @@ on:
         description: "expand depth number  you can  choose from 1,2,3,4,5 "
         type: enviroment
         required: True
-      platform:
+      platforms:
         description: 'expand target platform you can choose "youtube","google","instagram","tiktok","etsy",if you need more than one, use "," to concat them'
         type: enviroment
         required: True
@@ -35,7 +35,7 @@ jobs:
       - name: Run the scraping script
         run: python3    speedy.py
         env:
-          platform: ${{ github.event.inputs.platform }}
+          platforms: ${{ github.event.inputs.platforms }}
           depth: ${{ github.event.inputs.depth }}
           keywords: ${{ github.event.inputs.keywords }}
           keywordstxt: ${{ github.event.inputs.keywordstxt }}
