@@ -31,7 +31,7 @@ HREF_RE = re.compile(r'href="(.*?)"')
 
 async def fetch_one(file: IO, keyword: str,platforms:[], **kwargs) -> None:
     """Write the found HREFs from `keyword` to `file`."""
-    print('===platforms;',platforms)
+    print('fetch_one===platforms;',platforms)
     res = await get_longtail_keywords_from_one(query=keyword,platforms=platforms)
     
 
@@ -46,6 +46,8 @@ async def bulk_crawl_and_write(file: IO, keywords: set,platforms:[], **kwargs) -
     """Crawl & write concurrently to `file` for multiple `keywords`."""
     async with ClientSession() as session:
         tasks = []
+        print('bulk_crawl_and_write===platforms;',platforms)
+
         for keyword in keywords:
             tasks.append(
                 fetch_one(file=file, keyword=keyword, platforms=platforms, **kwargs)
