@@ -29,7 +29,7 @@ HREF_RE = re.compile(r'href="(.*?)"')
 
 
 
-async def fetch_one(file: IO, keyword: str, **kwargs) -> None:
+async def fetch_one(file: IO, keyword: str,platforms:[], **kwargs) -> None:
     """Write the found HREFs from `keyword` to `file`."""
     res = await get_longtail_keywords_from_one(query=keyword,platforms=platforms)
 
@@ -40,13 +40,13 @@ async def fetch_one(file: IO, keyword: str, **kwargs) -> None:
             await f.write(f"{p}\n")
         logger.info("Wrote results for source URL: %s", keyword)
 
-async def bulk_crawl_and_write(file: IO, keywords: set, **kwargs) -> None:
+async def bulk_crawl_and_write(file: IO, keywords: set,platforms:[] **kwargs) -> None:
     """Crawl & write concurrently to `file` for multiple `keywords`."""
     async with ClientSession() as session:
         tasks = []
         for keyword in keywords:
             tasks.append(
-                fetch_one(file=file, keyword=keyword, session=session, **kwargs)
+                fetch_one(file=file, keyword=keyword, platforms=platforms, **kwargs)
             )
         await asyncio.gather(*tasks)
 
