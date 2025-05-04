@@ -106,7 +106,7 @@ if __name__ == "__main__":
             # depth=0 at first
             #       
             if i >1:
-                with open(here.joinpath(f"{keyword}-depth={str(i-1)}-keywords.txt")) as infile:
+                with open(here.joinpath(f"{keyword}-depth={str(i-1)}-keywords.txt"),'w') as infile:
                     keywords = set(map(str.strip, infile))    
                 outpath = here.joinpath(f"{keyword}-depth={str(i+1)}-keywords.txt")
                 with open(outpath, "w") as outfile:
