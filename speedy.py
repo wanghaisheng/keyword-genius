@@ -55,6 +55,10 @@ if __name__ == "__main__":
     import sys
     keywords=os.getenv('keywords')
     depth=os.getenv('depth')
+    try:
+        depth=int(depth)
+    except:
+        depth=1
     keywordstxt=os.getenv('keywordstxt')
     platforms=os.getenv('platforms')
 
