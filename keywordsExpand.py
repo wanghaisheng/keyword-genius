@@ -134,7 +134,7 @@ async def get_longtail_keywords_from_one(query,platforms):
     to_be_saved_queries = []
     all_autosuggestions = []
     domains = []
-    for (domain, url) in temp_urls.items():
+    for (domain, url) in temp_urls:
 
         print('process',domain,'keyword',query)
         # add the query to the url
