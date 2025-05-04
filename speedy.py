@@ -40,7 +40,7 @@ async def fetch_one(file: IO, keyword: str,platforms:[], **kwargs) -> None:
             await f.write(f"{p}\n")
         logger.info("Wrote results for source URL: %s", keyword)
 
-async def bulk_crawl_and_write(file: IO, keywords: set,platforms:[] **kwargs) -> None:
+async def bulk_crawl_and_write(file: IO, keywords: set,platforms:[], **kwargs) -> None:
     """Crawl & write concurrently to `file` for multiple `keywords`."""
     async with ClientSession() as session:
         tasks = []
