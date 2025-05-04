@@ -31,7 +31,9 @@ HREF_RE = re.compile(r'href="(.*?)"')
 
 async def fetch_one(file: IO, keyword: str,platforms:[], **kwargs) -> None:
     """Write the found HREFs from `keyword` to `file`."""
+    print('===platforms;',platforms)
     res = await get_longtail_keywords_from_one(query=keyword,platforms=platforms)
+    
 
     if not res:
         return None
