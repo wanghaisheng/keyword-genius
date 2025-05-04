@@ -127,14 +127,14 @@ async def get_longtail_keywords_from_one(query,platforms):
     # jewelry
     # kids school
     # search engine optimization
-    temp_urls=[]
+    temp_urls={}
     for p in platforms:
-        temp_urls.append(urls[p])
+        temp_urls[p]=urls[p]
 
     to_be_saved_queries = []
     all_autosuggestions = []
     domains = []
-    for (domain, url) in temp_urls:
+    for (domain, url) in temp_urls.items():
 
         print('process',domain,'keyword',query)
         # add the query to the url
